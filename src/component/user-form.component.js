@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 
+var confirmation;
+
 const regExp1 = RegExp(
     /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
 )
+
+const regExp2 = RegExp(
+    /^\(?\d\d\d\)? ?\d\d\d-?\d\d\d\d$/
+)
+
+const passwordMatch = (confirmation, password) => password === confirmation;
 
 const formValid = ({ isError, ...rest }) => {
     let isValid = false;
@@ -28,12 +36,16 @@ export default class UserForm extends Component {
         super(props)
         this.state = {
             name: '',
+            phone: '',
             email: '',
             password: '',
+            password_confirmation: '',
             isError: {
                 name: '',
+                phone: '',
                 email: '',
                 password: '',
+                password_confirmation: '',
             }
         }
     }
@@ -42,8 +54,10 @@ export default class UserForm extends Component {
         e.preventDefault();
         if (formValid(this.state)) {
             console.log(this.state)
+            alert("register Failure")
         } else {
             console.log("Form is invalid!");
+            alert("register Successful")
         }
     };
 
@@ -56,6 +70,12 @@ export default class UserForm extends Component {
                 isError.name =
                     value.length < 4 ? "Atleast 4 characaters required" : "";
                 break;
+            
+            case "phone":
+                isError.phone = regExp2.test(value)
+                    ? ""
+                    : "Phone number is invalid (Enter only 10 digit number)";
+                break;
             case "email":
                 isError.email = regExp1.test(value)
                     ? ""
@@ -64,7 +84,12 @@ export default class UserForm extends Component {
             case "password":
                 isError.password =
                     value.length < 6 ? "Atleast 6 characaters required" : "";
+                confirmation = value;
                 break;
+            case "password_confirmation":
+                    isError.password_confirmation =
+                        passwordMatch(value,confirmation) ?  "" : "Password and password confirmation do not match." ;
+                    break;
             default:
                 break;
         }
@@ -90,6 +115,22 @@ export default class UserForm extends Component {
                         <span className="invalid-feedback">{isError.name}</span>
                     )}
                 </div>
+                
+                <div className="form-group mb-3">
+                    <label>Phone</label>
+                    <input
+                        type="phone"
+                        className={isError.phone.length > 0 ? "is-invalid form-control" : "form-control"}
+                        name="phone"
+                        onChange={this.formValChange}
+                        placeholder="Phone Number"
+                    />
+                    {isError.phone.length > 0 && (
+                        <span className="invalid-feedback">{isError.phone}</span>
+                    )}
+                </div>
+
+                    
                 <div className="form-group mb-3">
                     <label>Email Address</label>
                     <input
@@ -97,6 +138,7 @@ export default class UserForm extends Component {
                         className={isError.email.length > 0 ? "is-invalid form-control" : "form-control"}
                         name="email"
                         onChange={this.formValChange}
+                        placeholder="Email Address"
                     />
                     {isError.email.length > 0 && (
                         <span className="invalid-feedback">{isError.email}</span>
@@ -110,9 +152,24 @@ export default class UserForm extends Component {
                         className={isError.password.length > 0 ? "is-invalid form-control" : "form-control"}
                         name="password"
                         onChange={this.formValChange}
+                        placeholder="Password"
                     />
                     {isError.password.length > 0 && (
                         <span className="invalid-feedback">{isError.password}</span>
+                    )}
+                </div>
+                
+                <div className="form-group mb-3">
+                    <label>Confirm password</label>
+                    <input
+                        type="password"
+                        className={isError.password_confirmation.length > 0 ? "is-invalid form-control" : "form-control"}
+                        name="password_confirmation"
+                        onChange={this.formValChange}
+                        placeholder="Confirm password"
+                    />
+                    {isError.password_confirmation.length > 0 && (
+                        <span className="invalid-feedback">{isError.password_confirmation}</span>
                     )}
                 </div>
             

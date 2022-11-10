@@ -10,13 +10,13 @@ function App() {
                 <div class="col-sm-4">
                     <div class="card shadow">
                         <h4 class="card-header">
-                            Register Form
+                            Registration Form
                         </h4>
                         <div class="card-body">
                             <UserForm />
                         </div>
                         <div class="card-footer text-muted text-center">
-                            Thank you for using register form
+                            Thank you for using Register Form
                         </div>
                     </div>
                 </div>
