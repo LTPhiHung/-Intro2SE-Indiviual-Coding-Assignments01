@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 var confirmation;
+var passwordTemp;
+var passwordOld;
 
 const regExp1 = RegExp(
     /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
@@ -13,20 +15,18 @@ const regExp2 = RegExp(
 const passwordMatch = (confirmation, password) => password === confirmation;
 
 const formValid = ({ isError, ...rest }) => {
-    let isValid = false;
+    let isValid = true;
     Object.values(isError).forEach(val => {
         if (val.length > 0) {
-            isValid = false
-        } else {
-            isValid = true
+            isValid = false;
         }
     });
+
     Object.values(rest).forEach(val => {
-        if (val === null) {
+        console.log(val)
+        if (val === '') {
             isValid = false
-        } else {
-            isValid = true
-        }
+        } 
     });
     return isValid;
 };
@@ -52,12 +52,13 @@ export default class UserForm extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        if (formValid(this.state)) {
+        if (!formValid(this.state)) {
             console.log(this.state)
             alert("register Failure")
         } else {
             console.log("Form is invalid!");
             alert("register Successful")
+
         }
     };
 
@@ -84,12 +85,14 @@ export default class UserForm extends Component {
             case "password":
                 isError.password =
                     value.length < 6 ? "Atleast 6 characaters required" : "";
-                confirmation = value;
+                passwordTemp = value;
                 break;
             case "password_confirmation":
-                    isError.password_confirmation =
-                        passwordMatch(value,confirmation) ?  "" : "Password and password confirmation do not match." ;
-                    break;
+                confirmation = value
+                isError.password_confirmation =
+                    passwordMatch(confirmation,passwordTemp) ? "" : "Password and password confirmation do not match." ;
+
+                break;
             default:
                 break;
         }
