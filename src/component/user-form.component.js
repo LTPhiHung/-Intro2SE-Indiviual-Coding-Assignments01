@@ -87,9 +87,9 @@ export default class UserForm extends Component {
                     value.length < 6 ? "Atleast 6 characaters required" : "";
                 passwordTemp = value;
 
-                // check confirm  password again when change password 
+                // check confirm  password again when change password input
                 isError.password_confirmation = 
-                    passwordMatch(passwordOld, passwordTemp) ? "" : "Password and password confirmation do not match." ;
+                    passwordMatch(passwordOld, passwordTemp) || passwordOld === "" ? "" : "Password and password confirmation do not match." ;
                 break;
             case "password_confirmation":
                 confirmation = value
@@ -109,7 +109,7 @@ export default class UserForm extends Component {
         const { isError } = this.state;
         return (
             <form onSubmit={this.onSubmit} noValidate>
-                <div className="form-group mb-3">
+                <div className="form-group mb-2">
                     <label>Full Name</label>
                     <input
                         type="text"
@@ -123,7 +123,7 @@ export default class UserForm extends Component {
                     )}
                 </div>
                 
-                <div className="form-group mb-3">
+                <div className="form-group mb-2">
                     <label>Phone</label>
                     <input
                         type="phone"
@@ -138,7 +138,7 @@ export default class UserForm extends Component {
                 </div>
 
                     
-                <div className="form-group mb-3">
+                <div className="form-group mb-2">
                     <label>Email Address</label>
                     <input
                         type="email"
@@ -152,7 +152,7 @@ export default class UserForm extends Component {
                     )}
                 </div>
 
-                <div className="form-group mb-3">
+                <div className="form-group mb-2">
                     <label>Password</label>
                     <input
                         type="password"
@@ -162,11 +162,11 @@ export default class UserForm extends Component {
                         placeholder="Password"
                     />
                     {isError.password.length > 0 && (
-                        <span className="invalid-feedback">{isError.password}</span>
+                        <span className="invalid-feedback font-weight-bold">{isError.password}</span>
                     )}
                 </div>
                 
-                <div className="form-group mb-3">
+                <div className="form-group mb-2">
                     <label>Confirm password</label>
                     <input
                         type="password"
