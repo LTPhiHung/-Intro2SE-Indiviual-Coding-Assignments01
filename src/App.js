@@ -6,8 +6,21 @@ import UserForm from './component/user-form.component';
 function App() {
     return (
         <div className="container">
-            <UserForm />
-
+            <div class="row d-flex justify-content-center">
+                <div class="col-sm-4">
+                    <div class="card shadow">
+                        <h4 class="card-header">
+                            Register Form
+                        </h4>
+                        <div class="card-body">
+                            <UserForm />
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            Thank you for using register form
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
