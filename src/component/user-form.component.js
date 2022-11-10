@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-var confirmation;
-var passwordTemp;
-var passwordOld;
+var confirmation = "";
+var passwordTemp = "";
+var passwordOld = "";
 
 const regExp1 = RegExp(
     /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
@@ -54,11 +54,11 @@ export default class UserForm extends Component {
         e.preventDefault();
         if (!formValid(this.state)) {
             console.log(this.state)
-            alert("register Failure")
+            alert("Register Failure")
         } else {
             console.log("Form is invalid!");
-            alert("register Successful")
-
+            alert("Register Successful")
+            window.location.reload();
         }
     };
 
@@ -86,12 +86,16 @@ export default class UserForm extends Component {
                 isError.password =
                     value.length < 6 ? "Atleast 6 characaters required" : "";
                 passwordTemp = value;
+
+                // check confirm  password again when change password 
+                isError.password_confirmation = 
+                    passwordMatch(passwordOld, passwordTemp) ? "" : "Password and password confirmation do not match." ;
                 break;
             case "password_confirmation":
                 confirmation = value
                 isError.password_confirmation =
                     passwordMatch(confirmation,passwordTemp) ? "" : "Password and password confirmation do not match." ;
-
+                passwordOld = passwordTemp
                 break;
             default:
                 break;
